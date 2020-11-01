@@ -36,6 +36,9 @@ public class GamePanel extends JPanel implements ActionListener {
         running = true;
         timer = new Timer(DELAY, this);
         timer.start();
+        direction = 'R';
+        bodyParts = 6;
+        repaint();
     }
 
     public void paintComponent(Graphics g) {
@@ -145,12 +148,11 @@ public class GamePanel extends JPanel implements ActionListener {
         FontMetrics metrics2 = getFontMetrics(g.getFont());
         g.drawString(message, (SCREEN_WIDTH - metrics2.stringWidth(message))/2, SCREEN_HEIGHT/2);
         // Restart text
-        /*message = "Press SPACE to restart";
+        message = "Press SPACE to restart";
         g.setColor(Color.red);
         g.setFont(new Font("Ink Free", Font.BOLD, 35));
         FontMetrics metrics3 = getFontMetrics(g.getFont());
         g.drawString(message, (SCREEN_WIDTH - metrics3.stringWidth(message))/2, SCREEN_HEIGHT/2+100);
-         */
     }
 
     @Override
@@ -187,6 +189,19 @@ public class GamePanel extends JPanel implements ActionListener {
                         direction = 'D';
                     }
                     break;
+            }
+            if (!running) {
+                if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                    startGame();
+                    for(int i=bodyParts;i>0;i--) {
+                        x[i] = bodyParts*-1;
+                        y[i] = 0;
+                    }
+                    x[0] = 0;
+                    y[0] = 0;
+                    repaint();
+                    applesEaten = 0;
+                }
             }
         }
     }
